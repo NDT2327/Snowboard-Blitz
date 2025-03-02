@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Stump--1-snow_0: 6593512414140506293
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
