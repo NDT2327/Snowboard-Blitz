@@ -1254,8 +1254,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.5
-  m_GravityScale: 0.6
+  m_AngularDamping: 15
+  m_GravityScale: 0.8
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1424,7 +1424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16627cda576e1a343858ce99f79dfdb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  torqueAmount: 3
+  torqueAmount: 2.8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
