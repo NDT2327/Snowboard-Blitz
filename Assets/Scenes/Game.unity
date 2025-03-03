@@ -548,6 +548,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barry
       objectReference: {fileID: 0}
+    - target: {fileID: 4622000462092631185, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6372588585438283306, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: m_Size.x
       value: 2.2079885
@@ -571,11 +575,11 @@ PrefabInstance:
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: head
       value: 
-      objectReference: {fileID: 1093902029}
+      objectReference: {fileID: 1075353717}
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: snowboard
       value: 
-      objectReference: {fileID: 1093902030}
+      objectReference: {fileID: 1075353718}
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: staminaBar
       value: 
