@@ -12,9 +12,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxStamina = 100f; // Giá trị stamina tối đa
     [SerializeField] Slider staminaBar; // UI thanh stamina
     [SerializeField] Image staminaFill;
-    [SerializeField] Color staminaRecoverColor = Color.green;
-    [SerializeField] Color staminaBoostColor = Color.red;
-    [SerializeField] Color staminaLowColor = Color.yellow;
 
     [SerializeField] public CircleCollider2D head;
     [SerializeField] public CapsuleCollider2D snowboard;
@@ -103,24 +100,6 @@ public class PlayerController : MonoBehaviour
         if (staminaBar != null)
         {
             staminaBar.value = currentStamina;
-        }
-    }
-
-    private void UpdateStaminaColor()
-    {
-        if (staminaFill == null) return;
-
-        if (isBoosting)
-        {
-            staminaFill.color = staminaBoostColor; // Đổi màu đỏ khi Boost
-        }
-        else if (currentStamina < maxStamina * 0.3f)
-        {
-            staminaFill.color = staminaLowColor; // Màu vàng khi stamina thấp
-        }
-        else
-        {
-            staminaFill.color = staminaRecoverColor; // Màu xanh khi đang hồi
         }
     }
 
