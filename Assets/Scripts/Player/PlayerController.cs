@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float torqueAmount = 1f;
     [SerializeField] float jumpForce = 5f;
-    [SerializeField] float boostMultiplier = 1.5f;//Hệ số tăng tốc
+    [SerializeField] float boostMultiplier = 5f;//Hệ số tăng tốc
     [SerializeField] float staminaDecreaseRate = 20f; // Mức tiêu hao stamina khi Boost
     [SerializeField] float staminaRecoveryRate = 10f; // Mức hồi phục stamina mỗi giây
     [SerializeField] float maxStamina = 100f; // Giá trị stamina tối đa
@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb2d;
 
     private int jumpCount = 0;
-    private bool isBoosting = false;
+    private bool isGrounded = false;//kiểm tra xem có chạm đát
     private float defaultGravityScale;
     private float currentStamina;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -53,13 +53,17 @@ public class PlayerController : MonoBehaviour
         {
             rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpCount++;
+            //sau khi nhảy không còn chạm đất
+            isGrounded = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.S))
+        //giữ phím sẽ tăng tốc
+        //đảm bảo phải chạm đất để tăng tốc
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.S))
         {
-            if (!isBoosting)
+            if (isGrounded && currentStamina > 0)
             {
-                StartCoroutine(Boost());
+                Boost();
             }
         }
         else
@@ -69,26 +73,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator Boost()
+    private void Boost()
     {
-        isBoosting = true;
-        rb2d.gravityScale = defaultGravityScale * 0.7f;
-        rb2d.AddForce(Vector2.right * boostMultiplier, ForceMode2D.Impulse);
+        if (!isGrounded) return; // Chỉ tăng tốc khi đang chạm đất
 
-        while ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.S)) && currentStamina > 0)
+        rb2d.linearVelocity = new Vector2(rb2d.linearVelocity.x + boostMultiplier * Time.deltaTime, rb2d.linearVelocity.y);
+        currentStamina -= staminaDecreaseRate * Time.deltaTime;
+        UpdateStaminaUI();
+
+        if (currentStamina <= 0)
         {
-            currentStamina -= staminaDecreaseRate * Time.deltaTime;
-            UpdateStaminaUI();
-            yield return null;
+            currentStamina = 0;
         }
-
-        rb2d.gravityScale = defaultGravityScale;
-        isBoosting = false;
     }
 
     private void RecoverStamina()
     {
-        if (!isBoosting && currentStamina < maxStamina)
+        if ( currentStamina < maxStamina)
         {
             currentStamina += staminaRecoveryRate * Time.deltaTime;
             UpdateStaminaUI();
@@ -121,6 +122,7 @@ public class PlayerController : MonoBehaviour
                 else if (snowboard.bounds.Contains(contact.point))
                 {
                     jumpCount = 0;
+                    isGrounded = true;
                 }
             }
         }
