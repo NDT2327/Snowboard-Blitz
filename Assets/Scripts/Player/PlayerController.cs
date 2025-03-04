@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision)
     {
         // Kiểm tra nếu đối tượng va chạm có tag "Ground"
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") )
         {
             // Lặp qua các điểm va chạm để kiểm tra xem có điểm nào nằm trong vùng collider của head hay không
             foreach (ContactPoint2D contact in collision.contacts)
@@ -127,6 +127,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            StopGame();
+        }
     }
 
     //public void OnCollisionExit2D(Collision2D collision)
@@ -140,7 +144,6 @@ public class PlayerController : MonoBehaviour
 
     public void StopGame()
     {
-        Debug.Log("Phần đầu chạm đất. Dừng game.");
         // Đặt Time.timeScale = 0 để tạm dừng mọi hoạt động của game
         Time.timeScale = 0f;
 
