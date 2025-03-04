@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb2d;
 
     private int jumpCount = 0;
-    private bool isGrounded = false;//kiểm tra xem có chạm đát
+    private bool isGrounded = true;//kiểm tra xem có chạm đát
     private float defaultGravityScale;
     private float currentStamina;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isGrounded && currentStamina > 0)
             {
+                Debug.Log(isGrounded);
                 Boost();
             }
         }
@@ -89,7 +90,7 @@ public class PlayerController : MonoBehaviour
 
     private void RecoverStamina()
     {
-        if ( currentStamina < maxStamina)
+        if (currentStamina < maxStamina)
         {
             currentStamina += staminaRecoveryRate * Time.deltaTime;
             UpdateStaminaUI();
@@ -127,6 +128,15 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    //public void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    // Kiểm tra nếu rời khỏi "Ground"
+    //    if (collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        isGrounded = false; // Không còn tiếp xúc với mặt đất
+    //    }
+    //}
 
     public void StopGame()
     {

@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - StartFlag
   - EndFlag
+  - Bird
   - Rock
   layers:
   - Default
