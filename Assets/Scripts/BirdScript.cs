@@ -3,9 +3,9 @@
 public class BirdScript : MonoBehaviour
 {
     public float moveSpeed = 1.0f;
-    public float deadZone = -7f;
+    public float deadZone = -26f;
     public GameObject explosionPrefab;
-
+    private AudioSource audioSource;
 
     // Các biến cấu hình cho chuyển đổi giữa bay thẳng và bay zigzag
     public float cycleDuration = 3.0f;      // Tổng thời gian của một chu kỳ (ví dụ: 3 giây)
@@ -15,7 +15,8 @@ public class BirdScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -40,7 +41,7 @@ public class BirdScript : MonoBehaviour
 
         if (transform.position.x < deadZone)
         {
-            Debug.Log("Star remove");
+            Debug.Log("Bird remove");
             Destroy(gameObject);
         }
     }
@@ -55,6 +56,9 @@ public class BirdScript : MonoBehaviour
                 GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                 Destroy(explosion, 0.5f); // Xóa hiệu ứng sau 0.5 giây
             }
+            audioSource.Play();
+            //Destroy(audioSource, audioSource.clip.length);
+
             GetComponent<SpriteRenderer>().enabled = false; // Ẩn sprite ngay khi va chạm
             GetComponent<Collider2D>().enabled = false; // Vô hiệu hóa collider tránh va chạm tiếp
             Destroy(gameObject, 0.5f); // Chờ 0.5 giây rồi xóa
