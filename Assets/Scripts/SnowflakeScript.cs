@@ -8,7 +8,7 @@ public class SnowflakeScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        logicScript = GameObject.FindGameObjectWithTag("LogicScore").GetComponent<LogicScript>();
+        //logicScript = GameObject.FindGameObjectWithTag("LogicScore").GetComponent<LogicScript>();
 
     }
 
