@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - StartFlag
   - EndFlag
+  - Bird
   layers:
   - Default
   - TransparentFX
