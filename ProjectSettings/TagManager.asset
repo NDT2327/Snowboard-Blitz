@@ -8,6 +8,7 @@ TagManager:
   - StartFlag
   - EndFlag
   - Bird
+  - Rock
   layers:
   - Default
   - TransparentFX
