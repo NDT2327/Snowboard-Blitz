@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Image staminaFill;
 
     [SerializeField] public CircleCollider2D head;
+    [SerializeField] public CircleCollider2D body;
     [SerializeField] public CapsuleCollider2D snowboard;
     Rigidbody2D rb2d;
 
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour
             // Lặp qua các điểm va chạm để kiểm tra xem có điểm nào nằm trong vùng collider của head hay không
             foreach (ContactPoint2D contact in collision.contacts)
             {
-                if (head.bounds.Contains(contact.point))
+                if (head.bounds.Contains(contact.point) || body.bounds.Contains(contact.point))
                 {
                     StopGame();
                     break;
