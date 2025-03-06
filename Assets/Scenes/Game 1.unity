@@ -5897,7 +5897,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 861897892011468639, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: m_GravityScale
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 861897892011468639, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: m_AngularDamping
@@ -6025,7 +6025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: boostMultiplier
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: staminaDecreaseRate

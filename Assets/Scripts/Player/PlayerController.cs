@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
         Vector2 groundNormal = GetGroundNormal();
         Vector2 boostDirection = new Vector2(groundNormal.y, -groundNormal.x).normalized;
-        Debug.Log($"Boost Direction: {boostDirection}, Ground Normal: {groundNormal}");
+        Debug.Log($"Velocity: {rb2d.linearVelocity.magnitude}, Boost Direction: {boostDirection}, Ground Normal: {groundNormal}");
 
         rb2d.AddForce(boostDirection * boostMultiplier, ForceMode2D.Force);
 
