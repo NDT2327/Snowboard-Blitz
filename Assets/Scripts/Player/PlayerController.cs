@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Unity.IntegerTime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,7 +69,6 @@ public class PlayerController : MonoBehaviour
         {
             if (isGrounded && currentStamina > 0)
             {
-                Debug.Log(isGrounded);
                 Boost();
             }
         }
@@ -77,20 +77,42 @@ public class PlayerController : MonoBehaviour
             //Hồi phục lại khi không boost
             RecoverStamina();
         }
+
+        if (isGrounded)
+        {
+            Vector2 groundNormal = GetGroundNormal();
+            float slopeAngle = Vector2.Angle(groundNormal, Vector2.up);
+            if (slopeAngle > 5f) // Chỉ áp dụng khi dốc đủ nghiêng
+            {
+                Vector2 boostDirection = new Vector2(groundNormal.y, -groundNormal.x).normalized;
+                rb2d.AddForce(boostDirection * slopeAngle * 0.1f, ForceMode2D.Force); // Tăng tốc dựa trên góc dốc
+            }
+        }
     }
 
     private void Boost()
     {
-        if (!isGrounded) return; // Chỉ tăng tốc khi đang chạm đất
+        if (!isGrounded) return;
 
-        rb2d.linearVelocity = new Vector2(rb2d.linearVelocity.x + boostMultiplier * Time.deltaTime, rb2d.linearVelocity.y);
+        Vector2 groundNormal = GetGroundNormal();
+        Vector2 boostDirection = new Vector2(groundNormal.y, -groundNormal.x).normalized;
+        Debug.Log($"Boost Direction: {boostDirection}, Ground Normal: {groundNormal}");
+
+        rb2d.AddForce(boostDirection * boostMultiplier, ForceMode2D.Force);
+
         currentStamina -= staminaDecreaseRate * Time.deltaTime;
+        if (currentStamina <= 0) currentStamina = 0;
         UpdateStaminaUI();
+    }
 
-        if (currentStamina <= 0)
+    private Vector2 GetGroundNormal()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, LayerMask.GetMask("Ground"));
+        if(hit.collider != null)
         {
-            currentStamina = 0;
+            return hit.normal; //Tra ve phap tuyen cua mat dat
         }
+        return Vector2.up; 
     }
 
     private void RecoverStamina()
