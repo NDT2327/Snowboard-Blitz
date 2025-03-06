@@ -16,15 +16,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text distanceText;
     //Hiển thị thời gian chơi
     [SerializeField] TMP_Text timerText;
+    //Hiển thị tốc độ di chuyển của người chơi
+    [SerializeField] TMP_Text speedText;
 
     private float startTime;
     private bool isGameRunning = true;
+    private Rigidbody2D playerRb;
 
 
     void Start()
     {
         //lưu thời gian bắt đầu game
         startTime = Time.time;
+        playerRb = player.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -34,6 +38,8 @@ public class GameManager : MonoBehaviour
         {
             UpdateDistance();
             UpdateTimer();
+            UpdateSpeed();
+            CheckGameEnd();
         }
     }
 
@@ -44,13 +50,22 @@ public class GameManager : MonoBehaviour
         distanceText.text = remainingDistance.ToString("F1") + "m";
     }
 
-    //cập nhật thời gian chơ
+    //cập nhật thời gian chơi
     void UpdateTimer()
     {
         float elapsedTime = Time.time - startTime;
         int minutes = Mathf.FloorToInt(elapsedTime / 60);
         int seconds = Mathf.FloorToInt(elapsedTime % 60);
         timerText.text = $"Time: {minutes: 00} seconds: {seconds:00}";
+    }
+
+    void UpdateSpeed()
+    {
+        if(playerRb != null)
+        {
+            float speed = playerRb.linearVelocity.magnitude;
+            speedText.text = $"Speed: {speed:F1} m/s";
+        }
     }
 
     //Dừng game khi đến điểm kết thúc

@@ -1,23 +1,27 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BirdSpawnScript : MonoBehaviour
 {
     public GameObject bird;
-    public float minSpawnTime = 0f;  // Thời gian spawn tối thiểu
-    public float maxSpawnTime = 20f; // Thời gian spawn tối đa
-    public float minY = -8f, maxY = 8f; // Phạm vi spawn theo trục Y
-    private float nextSpawnTime; // Lưu thời gian spawn tiếp theo
+    public float minSpawnTime = 0f;
+    public float maxSpawnTime = 20f;
+    public float minY = -8f, maxY = 8f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private float nextSpawnTime;
+    private Transform cameraTransform; // Lưu Main Camera
+
     void Start()
     {
+        // Lấy Main Camera
+        cameraTransform = Camera.main.transform;
         SetNextSpawnTime();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Cập nhật vị trí theo Camera
+        transform.position = new Vector3(cameraTransform.position.x + 30f, cameraTransform.position.y, transform.position.z);
+
         if (Time.time >= nextSpawnTime)
         {
             SpawnBird();
@@ -27,14 +31,13 @@ public class BirdSpawnScript : MonoBehaviour
 
     void SpawnBird()
     {
-        float randomY = Random.Range(minY,maxY);
+        float randomY = Random.Range(cameraTransform.position.y + 3f, cameraTransform.position.y - 3f);
         Vector2 spawnPosition = new Vector2(transform.position.x, randomY);
         Instantiate(bird, spawnPosition, Quaternion.identity);
     }
 
     void SetNextSpawnTime()
     {
-        // Random thời gian cho lần spawn tiếp theo
         float randomInterval = Random.Range(minSpawnTime, maxSpawnTime);
         nextSpawnTime = Time.time + randomInterval;
     }
