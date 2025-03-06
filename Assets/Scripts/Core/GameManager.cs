@@ -1,5 +1,7 @@
 ﻿using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -13,11 +15,14 @@ public class GameManager : MonoBehaviour
 
 
     //Hiển thị khoảng cách còn lại
-    [SerializeField] TMP_Text distanceText;
+    [SerializeField] private TMP_Text distanceText;
     //Hiển thị thời gian chơi
-    [SerializeField] TMP_Text timerText;
+    [SerializeField] private TMP_Text timerText;
     //Hiển thị tốc độ di chuyển của người chơi
-    [SerializeField] TMP_Text speedText;
+    [SerializeField] private TMP_Text speedText;
+
+    //game over GO
+    [SerializeField] private GameObject gameOverCanvas;
 
     private float startTime;
     private bool isGameRunning = true;
@@ -66,6 +71,20 @@ public class GameManager : MonoBehaviour
             float speed = playerRb.linearVelocity.magnitude;
             speedText.text = $"Speed: {speed:F1} m/s";
         }
+    }
+
+    public void GameOver()
+    {
+        gameOverCanvas.SetActive(true);
+        Time.timeScale = 0;//stop game
+    }
+
+    public void RestartGame()
+    {
+        gameOverCanvas.SetActive(false);
+        Time.timeScale = 1;//continue
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
     }
 
     //Dừng game khi đến điểm kết thúc
