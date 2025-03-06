@@ -17655,6 +17655,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 801771058}
     m_Modifications:
+    - target: {fileID: 2594688371588645528, guid: f246668dff824cd44b5c6865ce2b24a5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 158706858}
+    - target: {fileID: 2594688371588645528, guid: f246668dff824cd44b5c6865ce2b24a5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2594688371588645528, guid: f246668dff824cd44b5c6865ce2b24a5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2733934717927278882, guid: f246668dff824cd44b5c6865ce2b24a5, type: 3}
       propertyPath: m_Name
       value: Gameover
