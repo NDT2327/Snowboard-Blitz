@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = true;//kiểm tra xem có chạm đát
     private float defaultGravityScale;
     private float currentStamina;
+    private GameManager gameManager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,6 +35,8 @@ public class PlayerController : MonoBehaviour
             staminaBar.maxValue = maxStamina;
             staminaBar.value = currentStamina;
         }
+
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     // Update is called once per frame
@@ -145,7 +149,7 @@ public class PlayerController : MonoBehaviour
     public void StopGame()
     {
         // Đặt Time.timeScale = 0 để tạm dừng mọi hoạt động của game
-        Time.timeScale = 0f;
+        gameManager.GameOver();
 
         // Nếu cần, bạn có thể hiển thị UI "Game Over" hoặc thực hiện các xử lý khác tại đây.
     }
