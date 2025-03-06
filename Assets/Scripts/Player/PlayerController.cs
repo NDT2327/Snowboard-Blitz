@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Unity.IntegerTime;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,12 +25,14 @@ public class PlayerController : MonoBehaviour
     private float defaultGravityScale;
     private float currentStamina;
     private GameManager gameManager;
+    private ParticleSystem snowTrails;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         defaultGravityScale = rb2d.gravityScale;
+        rb2d.gravityScale = 2f;
         currentStamina = maxStamina;
 
         if (staminaBar != null)
@@ -39,6 +42,8 @@ public class PlayerController : MonoBehaviour
         }
 
         gameManager = FindAnyObjectByType<GameManager>();
+        snowTrails = GetComponentInChildren<ParticleSystem>();
+
     }
 
     // Update is called once per frame
@@ -76,6 +81,8 @@ public class PlayerController : MonoBehaviour
         {
             //Hồi phục lại khi không boost
             RecoverStamina();
+            //thêm lực tự nhiên khi xuống dốc
+            ApplySlopeSpeed();
         }
 
         if (isGrounded)
@@ -88,6 +95,25 @@ public class PlayerController : MonoBehaviour
                 rb2d.AddForce(boostDirection * slopeAngle * 0.1f, ForceMode2D.Force); // Tăng tốc dựa trên góc dốc
             }
         }
+
+        //Điều khiển Particle System dựa trên trạng thái chạm đất
+        if (snowTrails != null)
+        {
+            if (isGrounded)
+            {
+                if (!snowTrails.isPlaying)
+                {
+                    snowTrails.Play();
+                }
+            }
+            else
+            {
+                if (snowTrails.isPlaying)
+                {
+                    snowTrails.Stop();
+                }
+            }
+        }
     }
 
     private void Boost()
@@ -96,8 +122,6 @@ public class PlayerController : MonoBehaviour
 
         Vector2 groundNormal = GetGroundNormal();
         Vector2 boostDirection = new Vector2(groundNormal.y, -groundNormal.x).normalized;
-        Debug.Log($"Velocity: {rb2d.linearVelocity.magnitude}, Boost Direction: {boostDirection}, Ground Normal: {groundNormal}");
-
         rb2d.AddForce(boostDirection * boostMultiplier, ForceMode2D.Force);
 
         currentStamina -= staminaDecreaseRate * Time.deltaTime;
@@ -105,14 +129,28 @@ public class PlayerController : MonoBehaviour
         UpdateStaminaUI();
     }
 
+    private void ApplySlopeSpeed()
+    {
+        if (!isGrounded) return;
+
+        Vector2 groundNormal = GetGroundNormal();
+        float slopeAngle = Vector2.Angle(groundNormal, Vector2.up);
+        if (slopeAngle > 5f) // Chỉ áp dụng khi dốc đủ nghiêng
+        {
+            Vector2 slopeDirection = new Vector2(groundNormal.y, -groundNormal.x).normalized;
+            float slopeFactor = Mathf.Sin(slopeAngle * Mathf.Deg2Rad); // Tính thành phần lực theo góc dốc
+            rb2d.AddForce(slopeDirection * slopeFactor * 10f, ForceMode2D.Force); // Điều chỉnh hệ số nếu cần
+        }
+    }
+
     private Vector2 GetGroundNormal()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, LayerMask.GetMask("Ground"));
-        if(hit.collider != null)
+        if (hit.collider != null)
         {
             return hit.normal; //Tra ve phap tuyen cua mat dat
         }
-        return Vector2.up; 
+        return Vector2.up;
     }
 
     private void RecoverStamina()
@@ -137,7 +175,7 @@ public class PlayerController : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision)
     {
         // Kiểm tra nếu đối tượng va chạm có tag "Ground"
-        if (collision.gameObject.CompareTag("Ground") )
+        if (collision.gameObject.CompareTag("Ground"))
         {
             // Lặp qua các điểm va chạm để kiểm tra xem có điểm nào nằm trong vùng collider của head hay không
             foreach (ContactPoint2D contact in collision.contacts)
@@ -160,14 +198,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //public void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    // Kiểm tra nếu rời khỏi "Ground"
-    //    if (collision.gameObject.CompareTag("Ground"))
-    //    {
-    //        isGrounded = false; // Không còn tiếp xúc với mặt đất
-    //    }
-    //}
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            jumpCount = 0;
+        }
+    }
 
     public void StopGame()
     {
