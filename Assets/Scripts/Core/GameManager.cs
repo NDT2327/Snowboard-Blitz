@@ -20,17 +20,27 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text timerText;
     //Hiển thị tốc độ di chuyển của người chơi
     [SerializeField] private TMP_Text speedText;
+    //Hiển thị điểm số 
+    [SerializeField] private TMP_Text scoreText;
 
     //game over GO
     [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private Text gameOverScoreText;
+
+    //sound
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip gameOverSound;
+    [SerializeField] private AudioClip buttonClickSound;
 
     private float startTime;
     private bool isGameRunning = true;
     private Rigidbody2D playerRb;
+    private float currentScore = 0;
 
 
     void Start()
     {
+        Time.timeScale = 1; // Đảm bảo game không bị pause
         //lưu thời gian bắt đầu game
         startTime = Time.time;
         playerRb = player.GetComponent<Rigidbody2D>();
@@ -44,6 +54,7 @@ public class GameManager : MonoBehaviour
             UpdateDistance();
             UpdateTimer();
             UpdateSpeed();
+            UpdateScoreText();
             CheckGameEnd();
         }
     }
@@ -66,10 +77,23 @@ public class GameManager : MonoBehaviour
 
     void UpdateSpeed()
     {
-        if(playerRb != null)
+        if (playerRb != null)
         {
             float speed = playerRb.linearVelocity.magnitude;
             speedText.text = $"Speed: {speed:F1} m/s";
+        }
+    }
+
+    public void UpdateScore(float score)
+    {
+        currentScore = score;
+        UpdateScoreText();
+    }
+    private void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + currentScore.ToString("F0");
         }
     }
 
@@ -77,14 +101,37 @@ public class GameManager : MonoBehaviour
     {
         gameOverCanvas.SetActive(true);
         Time.timeScale = 0;//stop game
+
+        if (gameOverScoreText != null) {
+            gameOverScoreText.text ="Your score: " + currentScore.ToString("F0");
+        }
+
+        if (audioSource != null && gameOverSound != null) {
+            audioSource.PlayOneShot(gameOverSound);
+        }
+    }
+
+    public void PlayButtonSound()
+    {
+        if (audioSource != null && buttonClickSound != null)
+        {
+            audioSource.PlayOneShot(buttonClickSound);
+        }
     }
 
     public void RestartGame()
     {
+        PlayButtonSound();
         gameOverCanvas.SetActive(false);
         Time.timeScale = 1;//continue
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
+
+    }
+
+    public void BackToMainMenu()
+    {
+        PlayButtonSound();
+        SceneManager.LoadScene("Menu");
     }
 
     //Dừng game khi đến điểm kết thúc
