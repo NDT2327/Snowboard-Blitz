@@ -6,7 +6,7 @@ public class Menu : MonoBehaviour
 
     // trở về Menu 
     public void GoToMenu() {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("Menu");
     }
 
 // thoát game
@@ -16,13 +16,13 @@ public class Menu : MonoBehaviour
 
     // bắt đầu chơi - Chơi lại
     public void Play() {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Game 1");
     }
 
     // Bảng điều khiển
     public void Control()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Control");
     }
 
 
