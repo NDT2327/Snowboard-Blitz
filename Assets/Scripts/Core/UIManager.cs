@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     public void LoadControls()
     {
         PlayButtonSound();
-        LoadScene("Controls");
+        LoadScene("Control");
     }
     //load game scene
     public void LoadGame()
