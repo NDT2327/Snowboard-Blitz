@@ -11,8 +11,6 @@ public class Game1Event : MonoBehaviour
         if (currentSceneName == "Game 1")
         {
             SceneManager.LoadSceneAsync("Game"); // Chuyển về scene "Game"
-            
-
         }
         else
         {
