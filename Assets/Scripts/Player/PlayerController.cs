@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float torqueAmount = 1f;
     [SerializeField] float jumpForce = 5f;
+    private float lastJumpTime;
+    private float jumpCooldown = 0.2f; // Giới hạn thời gian giữa các lần nhảy
+
     [SerializeField] float boostMultiplier = 5f;//Hệ số tăng tốc
     [SerializeField] float staminaDecreaseRate = 20f; // Mức tiêu hao stamina khi Boost
     [SerializeField] float staminaRecoveryRate = 10f; // Mức hồi phục stamina mỗi giây
@@ -71,14 +74,22 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
+        //if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
+        //{
+        //    rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        //    jumpCount++;
+        //    //sau khi nhảy không còn chạm đất
+        //    isGrounded = false;
+        //}
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2 && Time.time - lastJumpTime > jumpCooldown)
         {
+            rb2d.linearVelocity = new Vector2(rb2d.linearVelocity.x, 0);
             rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpCount++;
-            //sau khi nhảy không còn chạm đất
             isGrounded = false;
             totalRotation = 0f; // Reset totalRotation khi nhảy
             fullRotations = 0;  // Reset fullRotations khi nhảy
+            lastJumpTime = Time.time;
         }
 
         //giữ phím sẽ tăng tốc

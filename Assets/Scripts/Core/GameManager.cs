@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1; // Đảm bảo game không bị pause
         //lưu thời gian bắt đầu game
         startTime = Time.time;
         playerRb = player.GetComponent<Rigidbody2D>();

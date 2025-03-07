@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
     public void LoadGame()
     {
         PlayButtonSound();
-        LoadScene("Controls");
+        LoadScene("Game 1");
     }
     //load leaderboard
     public void ShowLeaderboard()
