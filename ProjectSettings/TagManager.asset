@@ -46,5 +46,32 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Sky
+    uniqueID: 4084110945
+    locked: 0
+  - name: Cloud_BG
+    uniqueID: 1598120007
+    locked: 0
+  - name: Glacial_Moutain
+    uniqueID: 2832702825
+    locked: 0
+  - name: Cloud_MG_3
+    uniqueID: 2018648887
+    locked: 0
+  - name: Cloud_MG_2
+    uniqueID: 2591670131
+    locked: 0
+  - name: Cloud_MG_1
+    uniqueID: 2086295135
+    locked: 0
+  - name: 7Cloud_Lonely
+    uniqueID: 2739410883
+    locked: 0
+  - name: Player
+    uniqueID: 758912149
+    locked: 0
+  - name: Ground
+    uniqueID: 3718361081
+    locked: 0
   m_RenderingLayers:
   - Default

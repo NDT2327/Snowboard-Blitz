@@ -6665,12 +6665,28 @@ PrefabInstance:
       objectReference: {fileID: 1075353717}
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: jumpForce
-      value: 8
+      value: 8.5
       objectReference: {fileID: 0}
+    - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
+      propertyPath: jumpSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 3929b75075357104a9aeeae97196dcb9, type: 3}
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: snowboard
       value: 
       objectReference: {fileID: 1075353718}
+    - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
+      propertyPath: boostSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 284b2baa17e2b414ab7bbfccd4da6480, type: 3}
+    - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
+      propertyPath: crashSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 39ac5168e55155b4981fca74015e08a2, type: 3}
+    - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
+      propertyPath: snowSlider
+      value: 
+      objectReference: {fileID: 8300000, guid: 63c1087614e89d448b71029446d716cf, type: 3}
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: staminaBar
       value: 
@@ -6684,9 +6700,17 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
+      propertyPath: gameOverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 865eeaa2948d9eb4e9e4e4da4b22fd5e, type: 3}
+    - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: boostMultiplier
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
+      propertyPath: groundCollision
+      value: 
+      objectReference: {fileID: 8300000, guid: 0cbeed18e5d1b4748871b1bfa23f9f24, type: 3}
     - target: {fileID: 9171719787237987352, guid: 97e11f4b3d3663348856d9fa7ecb01fd, type: 3}
       propertyPath: staminaDecreaseRate
       value: 45
