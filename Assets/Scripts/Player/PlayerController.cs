@@ -72,11 +72,13 @@ public class PlayerController : MonoBehaviour
 
         // Khởi tạo AudioSource
         audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
 
         // Tạo một AudioSource riêng cho âm thanh trượt tuyết
         snowAudioSource = gameObject.AddComponent<AudioSource>();
         snowAudioSource.clip = snowSlider;
-        snowAudioSource.loop = false; // Lặp lại liên tục
+        snowAudioSource.loop = true; // Lặp lại liên tục
         snowAudioSource.playOnAwake = false; // Không phát ngay khi bắt đầu
 
         lastRotation = transform.eulerAngles.z;
