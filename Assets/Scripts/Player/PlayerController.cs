@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public CircleCollider2D head;
     [SerializeField] public CircleCollider2D body;
     [SerializeField] public CapsuleCollider2D snowboard;
+    [SerializeField] private int score;
+
     Rigidbody2D rb2d;
 
     private int jumpCount = 0;
@@ -27,6 +29,12 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
     private ParticleSystem snowTrails;
 
+    // Rotation tracking
+    private float lastRotation = 0f;
+    private float totalRotation = 0f; // Tổng góc xoay tích lũy trong không trung
+    private int fullRotations = 0; // Số vòng xoay hoàn chỉnh
+    private float startTime;
+    private bool mapCompleted = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -43,6 +51,9 @@ public class PlayerController : MonoBehaviour
 
         gameManager = FindAnyObjectByType<GameManager>();
         snowTrails = GetComponentInChildren<ParticleSystem>();
+
+        lastRotation = transform.eulerAngles.z;
+        startTime = Time.time;
 
     }
 
@@ -66,6 +77,8 @@ public class PlayerController : MonoBehaviour
             jumpCount++;
             //sau khi nhảy không còn chạm đất
             isGrounded = false;
+            totalRotation = 0f; // Reset totalRotation khi nhảy
+            fullRotations = 0;  // Reset fullRotations khi nhảy
         }
 
         //giữ phím sẽ tăng tốc
@@ -114,6 +127,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        TrackRotation();
     }
 
     private void Boost()
@@ -128,6 +142,29 @@ public class PlayerController : MonoBehaviour
         if (currentStamina <= 0) currentStamina = 0;
         UpdateStaminaUI();
     }
+
+    private void TrackRotation()
+    {
+        float currentRotation = transform.eulerAngles.z;
+        float rotationDelta = Mathf.DeltaAngle(lastRotation, currentRotation);
+
+        // Chỉ theo dõi xoay khi ở trên không
+        if (!isGrounded)
+        {
+            totalRotation += rotationDelta; // Tích lũy tổng góc xoay
+
+            // Kiểm tra nếu hoàn thành một vòng xoay (360 độ)
+            while (Mathf.Abs(totalRotation) >= 360f)
+            {
+                fullRotations += (int)Mathf.Sign(totalRotation); // +1 hoặc -1 tùy hướng xoay
+                totalRotation -= Mathf.Sign(totalRotation) * 360f; // Giảm đi 360 độ đã tính
+                Debug.Log($"In Air - Full Rotation Detected! Total Rotations: {fullRotations}, Remaining Rotation: {totalRotation}");
+            }
+        }
+
+        lastRotation = currentRotation;
+    }
+
 
     private void ApplySlopeSpeed()
     {
@@ -170,6 +207,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void CompleteMap()
+    {
+        if (mapCompleted) return;//If completed no update score
+        mapCompleted = true;
+        float completion = Time.time - startTime;
+
+        if (completion < 60)
+        {
+            score += 500;
+            Debug.Log("Time Bonus! TOtal score: " + score);
+        }
+        gameManager.UpdateScore(score);
+        Debug.Log("Final score: " + score);
+    }
+
 
     // Hàm xử lý va chạm
     public void OnCollisionEnter2D(Collision2D collision)
@@ -189,6 +241,15 @@ public class PlayerController : MonoBehaviour
                 {
                     jumpCount = 0;
                     isGrounded = true;
+                    // Đáp đất thành công, tính điểm nếu có xoay
+                    if (Mathf.Abs(fullRotations) >= 1)
+                    {
+                        score += 100 * Mathf.Abs(fullRotations);
+                        gameManager.UpdateScore(score);
+                        Debug.Log($"Landed Successfully! Rotations: {fullRotations}, Score: {score}");
+                    }
+                    totalRotation = 0f; // Reset sau khi đáp đất
+                    fullRotations = 0;
                 }
             }
         }
