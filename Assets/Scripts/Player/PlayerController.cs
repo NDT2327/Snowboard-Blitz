@@ -35,9 +35,7 @@ public class PlayerController : MonoBehaviour
 
     // Thêm âm thanh
     [SerializeField] private AudioClip jumpSound;
-    [SerializeField] private AudioClip boostSound;
     [SerializeField] private AudioClip crashSound;
-    [SerializeField] private AudioClip gameOverSound;
     [SerializeField] private AudioClip groundCollision;
     [SerializeField] private AudioClip snowSlider;
     private AudioSource audioSource;
@@ -78,7 +76,7 @@ public class PlayerController : MonoBehaviour
         // Tạo một AudioSource riêng cho âm thanh trượt tuyết
         snowAudioSource = gameObject.AddComponent<AudioSource>();
         snowAudioSource.clip = snowSlider;
-        snowAudioSource.loop = true; // Lặp lại liên tục
+        snowAudioSource.loop = false; // Lặp lại liên tục
         snowAudioSource.playOnAwake = false; // Không phát ngay khi bắt đầu
 
         lastRotation = transform.eulerAngles.z;
@@ -211,9 +209,6 @@ public class PlayerController : MonoBehaviour
         currentStamina -= staminaDecreaseRate * Time.deltaTime;
         if (currentStamina <= 0) currentStamina = 0;
         UpdateStaminaUI();
-
-        // Phát âm thanh boost
-        PlaySound(boostSound);
     }
 
     private void TrackRotation()
@@ -377,9 +372,6 @@ public class PlayerController : MonoBehaviour
 
         // Gọi hàm kết thúc game từ GameManager
         gameManager.GameOver();
-
-        // Phát âm thanh game over sau khi dừng mọi thứ
-        PlaySound(gameOverSound);
     }
 
 

@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameObject leaderboardCanvas;
     [SerializeField] private AudioSource buttonClickSound;
 
     //load menu
@@ -26,24 +25,7 @@ public class UIManager : MonoBehaviour
         PlayButtonSound();
         LoadScene("Game 1");
     }
-    //load leaderboard
-    public void ShowLeaderboard()
-    {
-        PlayButtonSound();
-        if (leaderboardCanvas != null)
-        {
-            leaderboardCanvas.SetActive(true);
-        }
-    }
-    //hide leaderboard
-    public void HideLeaderboard()
-    {
-        PlayButtonSound();
-        if (leaderboardCanvas != null)
-        {
-            leaderboardCanvas.SetActive(false);
-        }
-    }
+
     //quit game
     public void QuitGame()
     {
