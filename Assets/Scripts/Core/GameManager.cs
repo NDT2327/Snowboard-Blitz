@@ -26,10 +26,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private Text gameOverScoreText;
 
+    //Congratulation GO
+    [SerializeField] private GameObject congratulationCanvas;
+    [SerializeField] private Text congratulationText;
+
     //sound
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip gameOverSound;
     [SerializeField] private AudioClip buttonClickSound;
+    [SerializeField] private AudioClip congratulationSound;
 
     private float startTime;
     private bool isGameRunning = true;
@@ -107,6 +112,22 @@ public class GameManager : MonoBehaviour
 
         if (audioSource != null && gameOverSound != null) {
             audioSource.PlayOneShot(gameOverSound);
+        }
+    }
+
+    public void Congratulation()
+    {
+        congratulationCanvas.SetActive(true);
+        Time.timeScale = 0;//stop game
+
+        if (congratulationText != null)
+        {
+            congratulationText.text = "Your score: " + currentScore.ToString("F0");
+        }
+
+        if (audioSource != null && congratulationSound != null)
+        {
+            audioSource.PlayOneShot(congratulationSound);
         }
     }
 

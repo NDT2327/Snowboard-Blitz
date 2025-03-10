@@ -462,6 +462,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SnowGenerator (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5197115822191553233, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: simulationSpeed
       value: 1
@@ -826,6 +830,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SnowGenerator (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5197115822191553233, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: simulationSpeed
       value: 1
@@ -1027,6 +1035,10 @@ PrefabInstance:
     - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: m_Name
       value: SnowGenerator (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5197115822191553233, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: simulationSpeed
@@ -1444,6 +1456,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SnowGenerator
       objectReference: {fileID: 0}
+    - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5197115822191553233, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: simulationSpeed
       value: 1
@@ -1685,6 +1701,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SnowGenerator (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5197115822191553233, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: simulationSpeed
       value: 1
@@ -1829,6 +1849,10 @@ PrefabInstance:
     - target: {fileID: 4622000462092631185, guid: fad0515899434024ab85e824a9b0f932, type: 3}
       propertyPath: m_Name
       value: Barry
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774400916592311478, guid: fad0515899434024ab85e824a9b0f932, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9171719787237987352, guid: fad0515899434024ab85e824a9b0f932, type: 3}
       propertyPath: staminaBar
@@ -2001,6 +2025,10 @@ PrefabInstance:
     - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: m_Name
       value: SnowGenerator (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5197115822191553233, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: simulationSpeed
@@ -13393,6 +13421,10 @@ PrefabInstance:
     - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: m_Name
       value: SnowGenerator (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3477327845380079081, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5197115822191553233, guid: 357ce5cc2f212284798ee54796d2d894, type: 3}
       propertyPath: simulationSpeed
