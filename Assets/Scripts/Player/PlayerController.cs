@@ -2,6 +2,7 @@
 using System.Collections;
 using Unity.IntegerTime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -326,8 +327,17 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else if (collision.gameObject.CompareTag("EndFlag"))
+        {
+            // Kiểm tra nếu Scene hiện tại là "Game"
+            if (SceneManager.GetActiveScene().name == "Game")
+            {
+                ShowCongratulation();
+            }
+        }
         else
         {   
+
             PlaySound(crashSound);
             StartCoroutine(GameOverDelay());
         }
@@ -372,6 +382,23 @@ public class PlayerController : MonoBehaviour
 
         // Gọi hàm kết thúc game từ GameManager
         gameManager.GameOver();
+    }
+
+    public void ShowCongratulation()
+    {
+        // Dừng mọi âm thanh đang phát
+        audioSource.Stop();
+        snowAudioSource.Stop();
+
+        // Nếu có nhiều AudioSource trong game, dừng tất cả
+        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource source in allAudioSources)
+        {
+            source.Stop();
+        }
+
+        // Gọi hàm kết thúc game từ GameManager
+        gameManager.Congratulation();
     }
 
 
