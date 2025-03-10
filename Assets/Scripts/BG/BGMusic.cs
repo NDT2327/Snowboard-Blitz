@@ -27,6 +27,8 @@ public class BGMusic : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true; // Lặp lại nhạc nền
+
+
     }
 
     private void Start()
@@ -69,11 +71,15 @@ public class BGMusic : MonoBehaviour
         {
             newClip = game2Music;
         }
-
         if (newClip != null && audioSource.clip != newClip)
         {
+            Debug.Log("Playing new music: " + newClip.name);
             audioSource.clip = newClip;
             audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("No new clip or same clip is already playing.");
         }
     }
 }
