@@ -4,44 +4,36 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource buttonClickSound;
-
     //load menu
     public void LoadMenu()
     {
-        PlayButtonSound();
+        AudioManager.instance.PlayButtonSound();
         LoadScene("Menu");
     }
 
     //load controls
     public void LoadControls()
     {
-        PlayButtonSound();
+        AudioManager.instance.PlayButtonSound();
+
         LoadScene("Control");
     }
     //load game scene
     public void LoadGame()
     {
-        PlayButtonSound();
+        AudioManager.instance.PlayButtonSound();
+
         LoadScene("Game 1");
     }
 
     //quit game
     public void QuitGame()
     {
-        PlayButtonSound();
+        AudioManager.instance.PlayButtonSound();
+
         Application.Quit();
     }
 
-    //playbutton sound
-    private void PlayButtonSound()
-    {
-        if (buttonClickSound
-             != null)
-        {
-            buttonClickSound.Play();
-        }
-    }
     //load scene
     private void LoadScene(string sceneName)
     {
