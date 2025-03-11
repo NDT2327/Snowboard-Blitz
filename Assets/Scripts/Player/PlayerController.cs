@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private float lastJumpTime;
     private float jumpCooldown = 0.2f; // Giới hạn thời gian giữa các lần nhảy
 
-    [SerializeField] float boostMultiplier = 8f;//Hệ số tăng tốc
+    [SerializeField] float boostMultiplier = 8f;//Hệ số tăng tốc    
     [SerializeField] float staminaDecreaseRate = 20f; // Mức tiêu hao stamina khi Boost
     [SerializeField] float staminaRecoveryRate = 10f; // Mức hồi phục stamina mỗi giây
     [SerializeField] float maxStamina = 100f; // Giá trị stamina tối đa
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         defaultGravityScale = rb2d.gravityScale;
-        rb2d.gravityScale = 2f;
+        rb2d.gravityScale = 1.8f;
         currentStamina = maxStamina;
 
         if (staminaBar != null)
