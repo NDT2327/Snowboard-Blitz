@@ -61,7 +61,7 @@ public class BirdScript : MonoBehaviour
 
             GetComponent<SpriteRenderer>().enabled = false; // Ẩn sprite ngay khi va chạm
             GetComponent<Collider2D>().enabled = false; // Vô hiệu hóa collider tránh va chạm tiếp
-            Destroy(gameObject, 0.5f); // Chờ 0.5 giây rồi xóa
+            gameObject.SetActive(false);
 
         }
     }

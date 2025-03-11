@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -30,11 +31,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject congratulationCanvas;
     [SerializeField] private Text congratulationText;
 
-    //sound
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip gameOverSound;
-    [SerializeField] private AudioClip buttonClickSound;
-    [SerializeField] private AudioClip congratulationSound;
 
     private float startTime;
     private bool isGameRunning = true;
@@ -47,7 +43,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1; // Đảm bảo game không bị pause
         //lưu thời gian bắt đầu game
         startTime = Time.time;
-        playerRb = player.GetComponent<Rigidbody2D>();
+
+        if (player != null)
+        {
+            playerRb = player.GetComponent<Rigidbody2D>();
+        }
     }
 
     // Update is called once per frame
@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
     //cập nhật khoảng cách từ người chơi đến EndPoint
     void UpdateDistance()
     {
+        if (player == null) return;
         float remainingDistance = Vector2.Distance(player.position, endPoint.position);
         distanceText.text = remainingDistance.ToString("F1") + "m";
     }
@@ -73,6 +74,7 @@ public class GameManager : MonoBehaviour
     //cập nhật thời gian chơi
     void UpdateTimer()
     {
+        if (player == null) return;
         float elapsedTime = Time.time - startTime;
         int minutes = Mathf.FloorToInt(elapsedTime / 60);
         int seconds = Mathf.FloorToInt(elapsedTime % 60);
@@ -103,64 +105,69 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        AudioManager.instance.PlayGameOver();
         gameOverCanvas.SetActive(true);
         Time.timeScale = 0;//stop game
-
-        if (gameOverScoreText != null) {
-            gameOverScoreText.text ="Your score: " + currentScore.ToString("F0");
+        if (gameOverScoreText != null)
+        {
+            gameOverScoreText.text = "Your score: " + currentScore.ToString("F0");
         }
 
-        if (audioSource != null && gameOverSound != null) {
-            audioSource.PlayOneShot(gameOverSound);
-        }
     }
 
     public void Congratulation()
     {
+        AudioManager.instance.PlayWinSound();
         congratulationCanvas.SetActive(true);
         Time.timeScale = 0;//stop game
+
+
 
         if (congratulationText != null)
         {
             congratulationText.text = "Your score: " + currentScore.ToString("F0");
         }
-
-        if (audioSource != null && congratulationSound != null)
-        {
-            audioSource.PlayOneShot(congratulationSound);
-        }
-    }
-
-    public void PlayButtonSound()
-    {
-        if (audioSource != null && buttonClickSound != null)
-        {
-            audioSource.PlayOneShot(buttonClickSound);
-        }
     }
 
     public void RestartGame()
     {
-        PlayButtonSound();
+        AudioManager.instance.PlayButtonSound();
         gameOverCanvas.SetActive(false);
         Time.timeScale = 1;//continue
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //find the player
+        StartCoroutine(FindPlayerAfterSceneLoad());
 
+        AudioManager.instance.RestartGameBGMusic();
     }
 
     public void BackToMainMenu()
     {
-        PlayButtonSound();
+        AudioManager.instance.PlayButtonSound();
         SceneManager.LoadScene("Menu");
     }
 
     //Dừng game khi đến điểm kết thúc
     public void CheckGameEnd()
     {
+        if (player == null) return; // Không làm gì nếu player đã bị hủy
+
         if (Vector2.Distance(player.position, endPoint.position) < 1f)
         {
             isGameRunning = false;
-            Debug.Log("Congratulations");
+            Congratulation();
+        }
+    }
+
+    // Coroutine để đợi scene load xong trước khi tìm player
+    private IEnumerator FindPlayerAfterSceneLoad()
+    {
+        yield return new WaitForSeconds(0.1f); // Chờ 1 frame để đảm bảo scene đã load xong
+
+        player = GameObject.FindWithTag("Player")?.transform;
+        if (player != null)
+        {
+            playerRb = player.GetComponent<Rigidbody2D>();
         }
     }
 }

@@ -33,17 +33,6 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
     private ParticleSystem snowTrails;
 
-
-    // Thêm âm thanh
-    [SerializeField] private AudioClip jumpSound;
-    [SerializeField] private AudioClip crashSound;
-    [SerializeField] private AudioClip groundCollision;
-    [SerializeField] private AudioClip snowSlider;
-    private AudioSource audioSource;
-    // Khai báo thêm một AudioSource cho âm thanh trượt tuyết
-    private AudioSource snowAudioSource;
-
-
     // Rotation tracking
     private float lastRotation = 0f;
     private float totalRotation = 0f; // Tổng góc xoay tích lũy trong không trung
@@ -68,18 +57,6 @@ public class PlayerController : MonoBehaviour
         gameManager = FindAnyObjectByType<GameManager>();
         snowTrails = GetComponentInChildren<ParticleSystem>();
 
-
-        // Khởi tạo AudioSource
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.loop = false;
-        audioSource.playOnAwake = false;
-
-        // Tạo một AudioSource riêng cho âm thanh trượt tuyết
-        snowAudioSource = gameObject.AddComponent<AudioSource>();
-        snowAudioSource.clip = snowSlider;
-        snowAudioSource.loop = false; // Lặp lại liên tục
-        snowAudioSource.playOnAwake = false; // Không phát ngay khi bắt đầu
-
         lastRotation = transform.eulerAngles.z;
         startTime = Time.time;
 
@@ -89,12 +66,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             rb2d.AddTorque(torqueAmount);
         }
         else
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             rb2d.AddTorque(-torqueAmount);
         }
@@ -115,7 +92,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
 
             // Phát âm thanh khi nhảy
-            PlaySound(jumpSound);
+            AudioManager.instance.PlayJumSound();
 
             totalRotation = 0f; // Reset totalRotation khi nhảy
             fullRotations = 0;  // Reset fullRotations khi nhảy
@@ -167,31 +144,6 @@ public class PlayerController : MonoBehaviour
                 {
                     snowTrails.Stop();
                 }
-            }
-        }
-
-        if (isGrounded)
-        {
-            if (rb2d.linearVelocity.magnitude > 0.5f) // Chỉ phát âm thanh khi tốc độ đủ lớn
-            {
-                if (!snowAudioSource.isPlaying)
-                {
-                    snowAudioSource.Play();
-                }
-            }
-            else
-            {
-                if (snowAudioSource.isPlaying)
-                {
-                    snowAudioSource.Stop();
-                }
-            }
-        }
-        else
-        {
-            if (snowAudioSource.isPlaying)
-            {
-                snowAudioSource.Stop();
             }
         }
 
@@ -276,21 +228,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void CompleteMap()
-    {
-        if (mapCompleted) return;//If completed no update score
-        mapCompleted = true;
-        float completion = Time.time - startTime;
-
-        if (completion < 60)
-        {
-            score += 500;
-            Debug.Log("Time Bonus! TOtal score: " + score);
-        }
-        gameManager.UpdateScore(score);
-        Debug.Log("Final score: " + score);
-    }
-
 
     // Hàm xử lý va chạm
     public void OnCollisionEnter2D(Collision2D collision)
@@ -312,13 +249,14 @@ public class PlayerController : MonoBehaviour
                     jumpCount = 0;
                     isGrounded = true;
 
-                    PlaySound(groundCollision);
+                    AudioManager.instance.PlayOnLandSound();
 
                     // Đáp đất thành công, tính điểm nếu có xoay
                     if (Mathf.Abs(fullRotations) >= 1)
                     {
                         score += 100 * Mathf.Abs(fullRotations);
                         gameManager.UpdateScore(score);
+                        AudioManager.instance.PlayScoreSound();
                         Debug.Log($"Landed Successfully! Rotations: {fullRotations}, Score: {score}");
                     }
                     totalRotation = 0f; // Reset sau khi đáp đất
@@ -336,9 +274,9 @@ public class PlayerController : MonoBehaviour
             }
         }
         else
-        {   
+        {
 
-            PlaySound(crashSound);
+            AudioManager.instance.PlayCrashSound();
             StartCoroutine(GameOverDelay());
         }
     }
@@ -369,44 +307,15 @@ public class PlayerController : MonoBehaviour
 
     public void StopGame()
     {
-        // Dừng mọi âm thanh đang phát
-        audioSource.Stop();
-        snowAudioSource.Stop();
-
-        // Nếu có nhiều AudioSource trong game, dừng tất cả
-        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
-        foreach (AudioSource source in allAudioSources)
-        {
-            source.Stop();
-        }
-
+        AudioManager.instance.StopAllSound();
         // Gọi hàm kết thúc game từ GameManager
         gameManager.GameOver();
     }
 
     public void ShowCongratulation()
     {
-        // Dừng mọi âm thanh đang phát
-        audioSource.Stop();
-        snowAudioSource.Stop();
-
-        // Nếu có nhiều AudioSource trong game, dừng tất cả
-        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
-        foreach (AudioSource source in allAudioSources)
-        {
-            source.Stop();
-        }
-
+        AudioManager.instance.StopAllSound();
         // Gọi hàm kết thúc game từ GameManager
         gameManager.Congratulation();
-    }
-
-
-    private void PlaySound(AudioClip clip)
-    {
-        if (clip != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(clip);
-        }
     }
 }
