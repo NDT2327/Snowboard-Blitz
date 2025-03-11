@@ -2061,6 +2061,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9171719787237987352, guid: fad0515899434024ab85e824a9b0f932, type: 3}
+      propertyPath: jumpForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9171719787237987352, guid: fad0515899434024ab85e824a9b0f932, type: 3}
       propertyPath: staminaBar
       value: 
       objectReference: {fileID: 222069522}
@@ -2068,6 +2072,10 @@ PrefabInstance:
       propertyPath: staminaFill
       value: 
       objectReference: {fileID: 355288259}
+    - target: {fileID: 9171719787237987352, guid: fad0515899434024ab85e824a9b0f932, type: 3}
+      propertyPath: torqueAmount
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 9171719787237987352, guid: fad0515899434024ab85e824a9b0f932, type: 3}
       propertyPath: boostMultiplier
       value: 50
