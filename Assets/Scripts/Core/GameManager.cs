@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     //game over GO
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private Text gameOverScoreText;
+    [SerializeField] private Text gameOverHigestScoreText;
 
     //Congratulation GO
     [SerializeField] private GameObject congratulationCanvas;
@@ -43,7 +44,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1; // Đảm bảo game không bị pause
         //lưu thời gian bắt đầu game
         startTime = Time.time;
-
+        float highScore = HighScoreManager.LoadHighScore();
+        Debug.Log("High Score: " + highScore);
         if (player != null)
         {
             playerRb = player.GetComponent<Rigidbody2D>();
@@ -108,11 +110,17 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.PlayGameOver();
         gameOverCanvas.SetActive(true);
         Time.timeScale = 0;//stop game
+        float highScore = HighScoreManager.LoadHighScore();
+        if (currentScore > highScore)
+        {
+            HighScoreManager.SaveHighScore(currentScore);
+        }
+
         if (gameOverScoreText != null)
         {
             gameOverScoreText.text = "Your score: " + currentScore.ToString("F0");
+            gameOverHigestScoreText.text= "Highest Score: " + HighScoreManager.LoadHighScore().ToString("F0");
         }
-
     }
 
     public void Congratulation()
